@@ -1,5 +1,7 @@
 package it.polito.tdp.nyc.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -46,7 +48,7 @@ public class Model {
 		{
 			for(NTA n2 : NTAs)
 			{
-				if(!n1.equals(n2))
+				if(n1.getNTACode().compareTo(n2.getNTACode())<0) //!n1.equals(n2)
 				{
 					//calcolo il peso
 					Set<String> unione = new HashSet<>(n1.getSSIDs());
@@ -55,8 +57,35 @@ public class Model {
 				}
 			}
 		}
+		//System.out.println("Vertici: " + grafo.vertexSet().size());
+		//System.out.println("Archi: " + grafo.edgeSet().size());  il grafo non è orientato, quindi devo considerare la metà di tutte le copppie 
 	}
 	
 	
+	
+	/*Non ho un oggetto ben definito che posso identificare come arco, anzi l'arco sarà composto da un insieme di informazioni,
+	 *  quindi mi creo la classe "Arco" contenente tutto quello che mi serve
+	 */
+	public List<Arco> analisiArchi() {
+		double media=0.0;
+		
+		for(DefaultWeightedEdge ei: grafo.edgeSet())
+		{
+			media +=  grafo.getEdgeWeight(ei);
+		}
+		
+		media = media/grafo.edgeSet().size();
+		List<Arco> result = new ArrayList<Arco>();
+		
+		for(DefaultWeightedEdge ei: grafo.edgeSet())
+		{
+			if(grafo.getEdgeWeight(ei)>media)
+			{
+				result.add(new Arco(grafo.getEdgeSource(ei).getNTACode(), grafo.getEdgeTarget(ei).getNTACode(), (int)grafo.getEdgeWeight(ei)));
+			}
+		}
+		Collections.sort(result);
+		return result;
+	}
 	
 }

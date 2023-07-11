@@ -3,6 +3,8 @@ package it.polito.tdp.nyc;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.nyc.model.Arco;
 import it.polito.tdp.nyc.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -58,10 +60,19 @@ public class FXMLController {
 
     @FXML
     void doAnalisiArchi(ActionEvent event) {
-    	
+    	List<Arco> archi = model.analisiArchi();
+    	for(Arco ai : archi)
+    	{
+    		txtResult.appendText(ai + "\n");
+    	}
 
     }
 
+    
+    
+    
+    
+    
     @FXML
     void doCreaGrafo(ActionEvent event) {
     	String borough = cmbBorough.getValue();
